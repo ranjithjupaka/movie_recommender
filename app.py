@@ -1,3 +1,4 @@
+import gzip
 import pickle
 import streamlit as st
 import requests
@@ -26,7 +27,11 @@ def recommend(movie):
 
 st.header('Movie Recommender System')
 movies = pickle.load(open('model/movie_list.pkl','rb'))
-similarity = pickle.load(open('model/similarity.pkl','rb'))
+
+with gzip.open('model/similarity.pkl.gz', 'rb') as f:
+    similarity = pickle.load(f)
+    
+# similarity = pickle.load(open('model/similarity.pkl','rb'))
 
 movie_list = movies['title'].values
 selected_movie = st.selectbox(
